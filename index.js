@@ -10,7 +10,7 @@ const db = {
 }
 
 const tracker = {
-  number: '1111', 
+  number: 'M-1111', 
   '18': {
     '8': { count: 0 }
   }
@@ -139,7 +139,6 @@ module.exports = {
       this._createNewEntry(tracker)
     ]).then(values => {
       console.log('Created Invoice record tracker.')
-      console.log(values)
       done && done();
     }).catch(function(err) {
       console.log(err);
