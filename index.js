@@ -9,13 +9,6 @@ const db = {
   port: null
 }
 
-const tracker = {
-  number: 'M-1111', 
-  '18': {
-    '8': { count: 0 }
-  }
-};
-
 
 module.exports = {
 
@@ -121,9 +114,9 @@ module.exports = {
     return this;
   },
 
-  _createNewEntry(invoice) {
+  _createMasterRecord() {
     return new Promise((resolve, reject) => {
-      invoicedb.createInvoice(invoice, (err, data) => {
+      invoicedb.createMasterRecord( (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -136,7 +129,7 @@ module.exports = {
   _createNewEntries(done) {
     console.log('Create Invoice record tracker...')  
     Promise.all([
-      this._createNewEntry(tracker)
+      this._createMasterRecord()
     ]).then(values => {
       console.log('Created Invoice record tracker.')
       done && done();
