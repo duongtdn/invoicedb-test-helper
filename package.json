@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/duongtdn/invoicedb-test-helper#readme",
   "dependencies": {
-    "invoicedb-dynamodb-driver": "^1.0.0",
+    "@sglearn/invoicedb-dynamodb-driver": "^1.0.0",
     "database-abstractor": "^1.0.0"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.338.0"
   }
 }

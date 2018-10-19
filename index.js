@@ -4,11 +4,6 @@ const DatabaseAbstractor = require('database-abstractor');
 
 const invoicedb = new DatabaseAbstractor();
 
-const db = {
-  host: null,
-  port: null
-}
-
 
 module.exports = {
 
@@ -20,15 +15,9 @@ module.exports = {
 
   queue: [],
 
-  use({host, port}) {
-    db.host = host;
-    db.port = port;
+  use() {
 
-    invoicedb.use(require('invoicedb-dynamodb-driver')(
-      {
-        region : 'us-west-2', 
-        endpoint : `${db.host}:${db.port}`
-      },
+    invoicedb.use(require('@sglearn/invoicedb-dynamodb-driver')(
       (err, data) => {
         if (err) {
           console.log('Failed to init local db')
@@ -47,9 +36,6 @@ module.exports = {
   },
 
   init(done) {
-    if (!db.host && !db.port) {
-      throw new Error('host and port of database must be define.')
-    }
     if (this._tables) {
       if (this._tables.indexOf('INVOICE') === -1) {
         console.log('\nInitializing INVOICE Table...')
@@ -65,12 +51,10 @@ module.exports = {
     } else {
       this.queue.push({name: 'init', args: [done]})
     }
+    return this
   },
 
   new(done) {
-    if (!db.host && !db.port) {
-      throw new Error('host and port of database must be define.')
-    }
     if (this._dbready) {
       invoicedb.createTable((err, data) => {
         if (err) {
@@ -87,9 +71,6 @@ module.exports = {
   },
 
   reset () {
-    if (!db.host && !db.port) {
-      throw new Error('host and port of database must be define.')
-    }
     const self = this;
     if (this._dbready) {
       invoicedb.dropTable(function(err, data) {
